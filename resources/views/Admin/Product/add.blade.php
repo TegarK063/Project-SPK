@@ -75,7 +75,7 @@
             <div class="flex justify-end mt-6">
                 <a href=""
                     class="px-6 py-2 mr-2 leading-5 text-white transition-colors duration-200 transform bg-pink-500 rounded-md hover:bg-pink-700 focus:outline-none focus:bg-gray-600">Save</a>
-                <a href="{{ url('/ProductView') }}"
+                <a href="{{ route('Products.index') }}"
                     class="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-500 rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-600">Cencel</a>
             </div>
         </form>

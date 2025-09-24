@@ -14,7 +14,7 @@
                     <div class="col">
                         <div class="card shadow">
                             <div class="card-header border-0">
-                                <a class="btn btn-primary text-white" href="{{ url ('/Productadd') }}">Tambah Product</a>
+                                <a class="btn btn-primary text-white" href="{{ url('/Productadd') }}">Tambah Product</a>
                             </div>
                             <div class="table-responsive">
                                 <table class="table table-hover align-items-center table-flush">
@@ -27,35 +27,45 @@
                                         </tr>
                                     </thead>
                                     <tbody class="text-center">
-                                        <tr>
-                                            <th scope="row" class="text-center">
-                                                <div class="d-flex align-items-center justify-content-center">
-                                                    <a href="#" class="avatar me-2">
-                                                        <img alt="Image placeholder"
-                                                            src="{{ asset('assets/img/iphone-8-space-gray.jpg') }}"
-                                                            class=" style="width:50px; height:50px;">
-                                                    </a>
-                                                    <span class="mb-0 text-sm">Iphone 8 (64GB)</span>
-                                                </div>
-                                            </th>
-                                            <td>
-                                                <span class=" text-black">
-                                                    64 GB
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <span class=" text-black">
-                                                    Rp. 8.000.000
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <div class="actions">
-                                                    <a href="#" class="btn btn-sm btn-info">View</a>
-                                                    <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                                    <a href="#" class="btn btn-sm btn-danger">Delete</a>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                        @forelse ($products as $product)
+                                            <tr>
+                                                <th scope="row" class="text-center">
+                                                    <div class="d-flex align-items-center justify-content-center">
+                                                        <a href="#" class="avatar me-2">
+                                                            <img alt="Image placeholder"
+                                                                src="{{ asset('/storage/products/' . $product->image) }}"
+                                                                class=" style="width:50px; height:50px;">
+                                                        </a>
+                                                        <span class="mb-0 text-sm">{{ $product->series }}
+                                                            ({{ $product->storage }})
+                                                        </span>
+                                                    </div>
+                                                </th>
+                                                <td>
+                                                    <span class=" text-black">
+                                                        {{ $product->storage }}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span class=" text-black">
+                                                        {{ 'Rp ' . number_format($product->price, 2, ',', '.') }}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <div class="actions">
+                                                        <a href="#" class="btn btn-sm btn-info">View</a>
+                                                        <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <div class=" alert alert-danger rounded-0 text-center">
+                                                Data Products belum ada.
+                                            </div>
+                                        @endforelse
                                     </tbody>
                                 </table>
                             </div>
@@ -85,6 +95,28 @@
                                 </nav>
                             </div>
                         </div>
+                        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+                        <script>
+                            //message with sweetalert
+                            @if (session('success'))
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "BERHASIL",
+                                    text: "{{ session('success') }}",
+                                    showConfirmButton: false,
+                                    timer: 2000
+                                });
+                            @elseif (session('error'))
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "GAGAL!",
+                                    text: "{{ session('error') }}",
+                                    showConfirmButton: false,
+                                    timer: 2000
+                                });
+                            @endif
+                        </script>
                     </div>
                 </div>
             </div>
