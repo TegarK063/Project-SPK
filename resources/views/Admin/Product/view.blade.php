@@ -14,7 +14,7 @@
                     <div class="col">
                         <div class="card shadow">
                             <div class="card-header border-0">
-                                <a class="btn btn-primary text-white" href="">Tambah Product</a>
+                                <a class="btn btn-primary text-white" href="{{ url ('/Productadd') }}">Tambah Product</a>
                             </div>
                             <div class="table-responsive">
                                 <table class="table table-hover align-items-center table-flush">
