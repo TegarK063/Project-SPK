@@ -14,7 +14,8 @@
                     <div class="col">
                         <div class="card shadow">
                             <div class="card-header border-0">
-                                <a class="btn btn-primary text-white" href="{{ url('/Productadd') }}">Tambah Product</a>
+                                <a class="btn btn-primary text-white" href="{{ Route('Products.create') }}">Tambah
+                                    Product</a>
                             </div>
                             <div class="table-responsive">
                                 <table class="table table-hover align-items-center table-flush">
@@ -53,7 +54,8 @@
                                                 </td>
                                                 <td>
                                                     <div class="actions">
-                                                        <a href="#" class="btn btn-sm btn-info">View</a>
+                                                        <a href="{{ route('Products.show', $product->id) }}"
+                                                            class="btn btn-sm btn-info">View</a>
                                                         <a href="#" class="btn btn-sm btn-warning">Edit</a>
                                                         @csrf
                                                         @method('DELETE')
