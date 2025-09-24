@@ -30,22 +30,22 @@
                                         <tr>
                                             <th scope="row" class="text-center">
                                                 <div class="d-flex align-items-center justify-content-center">
-                                                    <a href="#" class="avatar rounded-circle me-2">
+                                                    <a href="#" class="avatar me-2">
                                                         <img alt="Image placeholder"
-                                                            src="https://raw.githack.com/creativetimofficial/argon-dashboard/master/assets/img/theme/bootstrap.jpg"
-                                                            class="rounded-circle" style="width:50px; height:50px;">
+                                                            src="{{ asset('assets/img/iphone-8-space-gray.jpg') }}"
+                                                            class=" style="width:50px; height:50px;">
                                                     </a>
-                                                    <span class="mb-0 text-sm">Argon Design System</span>
+                                                    <span class="mb-0 text-sm">Iphone 8 (64GB)</span>
                                                 </div>
                                             </th>
                                             <td>
                                                 <span class=" text-black">
-                                                    512 GB
+                                                    64 GB
                                                 </span>
                                             </td>
                                             <td>
                                                 <span class=" text-black">
-                                                    Rp. 12.000.000
+                                                    Rp. 8.000.000
                                                 </span>
                                             </td>
                                             <td>
