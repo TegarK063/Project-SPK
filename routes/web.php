@@ -8,4 +8,4 @@ Route::get('/', function () {
 });
 
 Route::resource('/Products', productController::class);
-Route::view('/form', 'Admin.Product.show')->name('form');
+// Route::view('/form', 'form')->name('form');

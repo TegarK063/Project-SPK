@@ -56,10 +56,19 @@
                                                     <div class="actions">
                                                         <a href="{{ route('Products.show', $product->id) }}"
                                                             class="btn btn-sm btn-info">View</a>
-                                                        <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                                                        <a href="{{ route('Products.edit', $product->id) }}"
+                                                            class="btn btn-sm btn-warning">Edit</a>
+                                                        <form id="delete-form-{{ $product->id }}"
+                                                            action="{{ route('Products.destroy', $product->id) }}"
+                                                            method="POST" class="d-inline">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="button" class="btn btn-sm btn-danger"
+                                                                onclick="confirmDelete({{ $product->id }}, '{{ $product->series }}')">
+                                                                Delete
+                                                            </button>
+                                                        </form>
+
                                                     </div>
                                                 </td>
                                             </tr>
@@ -119,6 +128,40 @@
                                 });
                             @endif
                         </script>
+                        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                        <script>
+                            function confirmDelete(id, series) {
+                                const swalWithBootstrapButtons = Swal.mixin({
+                                    customClass: {
+                                        confirmButton: "btn btn-success",
+                                        cancelButton: "btn btn-danger"
+                                    },
+                                    buttonsStyling: false
+                                });
+
+                                swalWithBootstrapButtons.fire({
+                                    title: "Apakah Anda Yakin?",
+                                    text: "Menghapus data " + series,
+                                    icon: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonText: "Yes, delete it!",
+                                    cancelButtonText: "No, cancel!",
+                                    reverseButtons: true
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        // submit form delete
+                                        document.getElementById('delete-form-' + id).submit();
+                                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                        swalWithBootstrapButtons.fire({
+                                            title: "Cancelled",
+                                            text: "Your data is safe :)",
+                                            icon: "error"
+                                        });
+                                    }
+                                });
+                            }
+                        </script>
+
                     </div>
                 </div>
             </div>
