@@ -55,11 +55,15 @@
                                                 </td>
                                                 <td>
                                                     <div class="actions">
-                                                        <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                                        <form id="#" action="#" method="POST" class="d-inline">
-                                                            {{-- @csrf
-                                                            @method('DELETE') --}}
-                                                            <button type="button" class="btn btn-sm btn-danger">
+                                                        <a href="{{ route('Kriteria.edit', $kriteria->id) }}"
+                                                            class="btn btn-sm btn-warning">Edit</a>
+                                                        <form id="delete-form-{{ $kriteria->id }}"
+                                                            action="{{ route('Kriteria.destroy', $kriteria->id) }}"
+                                                            method="POST" class="d-inline">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="button" class="btn btn-sm btn-danger"
+                                                                onclick="confirmDelete({{ $kriteria->id }}, '{{ $kriteria->nama_kriteria }}')">
                                                                 Delete
                                                             </button>
                                                         </form>
@@ -101,35 +105,34 @@
                         </script>
                         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
                         <script>
-                            function confirmDelete(id, series) {
+                            function confirmDelete(id, nama) {
                                 const swalWithBootstrapButtons = Swal.mixin({
                                     customClass: {
-                                        confirmButton: "btn btn-success",
-                                        cancelButton: "btn btn-danger"
+                                        confirmButton: 'btn btn-success',
+                                        cancelButton: 'btn btn-danger'
                                     },
                                     buttonsStyling: false
                                 });
 
                                 swalWithBootstrapButtons.fire({
-                                    title: "Apakah Anda Yakin?",
-                                    text: "Menghapus data " + series,
-                                    icon: "warning",
+                                    title: 'Apakah Anda Yakin?',
+                                    text: "Menghapus data " + nama,
+                                    icon: 'warning',
                                     showCancelButton: true,
-                                    confirmButtonText: "Yes, delete it!",
-                                    cancelButtonText: "No, cancel!",
+                                    confirmButtonText: 'Yes, delete it!',
+                                    cancelButtonText: 'No, cancel!',
                                     reverseButtons: true
                                 }).then((result) => {
                                     if (result.isConfirmed) {
-                                        // submit form delete
                                         document.getElementById('delete-form-' + id).submit();
                                     } else if (result.dismiss === Swal.DismissReason.cancel) {
-                                        swalWithBootstrapButtons.fire({
-                                            title: "Cancelled",
-                                            text: "Your data is safe :)",
-                                            icon: "error"
-                                        });
+                                        swalWithBootstrapButtons.fire(
+                                            'Cancelled',
+                                            'Your data is safe :)',
+                                            'error'
+                                        )
                                     }
-                                });
+                                })
                             }
                         </script>
 

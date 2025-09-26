@@ -57,5 +57,40 @@ class kriteriaController extends Controller
         // redirect to index
         return redirect()->route('Kriteria.index')->with('success', 'Data Berhasil Disimpan!');
     }
+    public function edit($id): View
+    {
+        $kriteria = kriteria::findOrFail($id);
+        return view('Admin.Kriteria.edit', compact('kriteria'));
+    }
+
+    public function update(Request $request, $id): RedirectResponse
+    {
+        // validasi data
+        $request->validate([
+            'nama_kriteria' => 'required',
+            'type' => 'required|in:Cost,Benefit',
+            'bobot' => 'required|numeric|min:0',
+        ]);
+
+        // update data
+        $kriteria = kriteria::findOrFail($id);
+        $kriteria->update([
+            'nama_kriteria' => $request->nama_kriteria,
+            'type' => $request->type,
+            'bobot' => $request->bobot,
+        ]);
+
+        // redirect to index
+        return redirect()->route('Kriteria.index')->with('success', 'Data Berhasil Diupdate!');
+    }
+
+    public function destroy($id): RedirectResponse
+    {
+        $kriteria = kriteria::findOrFail($id);
+        $kriteria->delete();
+
+        // Redirect ke index
+        return redirect()->route('Kriteria.index')->with('success', 'Data Berhasil Dihapus!');
+    }
 
 }
