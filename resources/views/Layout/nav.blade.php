@@ -16,14 +16,21 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="{{ Route('Products.index') }}">Kelola Product</a></li>
-                            <li><a class="dropdown-item" href="{{ Route ('Kriteria.index') }}">Kelola Kritetia</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li><a class="dropdown-item" href="{{ Route('Kriteria.index') }}">Kelola Kritetia</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item"><a class="nav-link me-lg-3" href="{{ Route('userProduct.index') }}">Product</a></li>
+                    <li class="nav-item"><a class="nav-link me-lg-3" href="{{ Route('userProduct.index') }}">Product</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Pengujian Moora
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{{ Route ('Alternatif.index') }}">Alternatif</a></li>
+                            <li><a class="dropdown-item" href="">Output</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>
