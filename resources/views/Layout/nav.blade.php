@@ -16,7 +16,7 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="{{ Route('Products.index') }}">Kelola Product</a></li>
-                            <li><a class="dropdown-item" href="#">Kelola Kritetia</a></li>
+                            <li><a class="dropdown-item" href="{{ Route ('Kriteria.index') }}">Kelola Kritetia</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
