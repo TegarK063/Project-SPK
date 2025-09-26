@@ -20,17 +20,7 @@ class productController extends Controller
 
     public function create() : View
     {
-        // ambil data terakhir
-        $last = kriteria::orderBy('id', 'desc')->first();
-
-        // hitung nomor baru
-        $newNumber = $last ? (int) substr($last->kode_kriteria, 1) + 1 : 1;
-
-        // buat kode baru, misal C01, C02
-        $kode_kriteria = 'C' . str_pad($newNumber, 2, '0', STR_PAD_LEFT);
-
-        // kirim ke view
-        return view('Admin.Kriteria.create', compact('kode_kriteria'));
+        return view('Admin.Product.create');
     }
 
 
