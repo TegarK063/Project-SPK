@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\kriteria;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
@@ -17,9 +18,21 @@ class productController extends Controller
         return view('Admin.Product.view', compact('products'));
     }
 
-    public function create() : View {
-        return view('Admin.Product.create');
+    public function create() : View
+    {
+        // ambil data terakhir
+        $last = kriteria::orderBy('id', 'desc')->first();
+
+        // hitung nomor baru
+        $newNumber = $last ? (int) substr($last->kode_kriteria, 1) + 1 : 1;
+
+        // buat kode baru, misal C01, C02
+        $kode_kriteria = 'C' . str_pad($newNumber, 2, '0', STR_PAD_LEFT);
+
+        // kirim ke view
+        return view('Admin.Kriteria.create', compact('kode_kriteria'));
     }
+
 
     public function store(Request $request) : RedirectResponse
     {

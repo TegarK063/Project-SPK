@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class kriteria extends Model
 {
-    protected $fileable = [
+    protected $fillable = [
         'kode_kriteria',
         'nama_kriteria',
         'type',

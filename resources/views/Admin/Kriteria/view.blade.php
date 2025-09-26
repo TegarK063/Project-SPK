@@ -14,7 +14,7 @@
                     <div class="col">
                         <div class="card shadow">
                             <div class="card-header border-0">
-                                <a class="btn btn-primary text-white" href="{{ Route('Products.create') }}">Tambah
+                                <a class="btn btn-primary text-white" href="{{ Route('Kriteria.create') }}">Tambah
                                     Kriteria</a>
                             </div>
                             <div class="table-responsive">
@@ -30,76 +30,51 @@
                                     </thead>
                                     <tbody class="text-center">
                                         @forelse ($kriterias as $kriteria)
-                                        <tr>
-                                            <td>
-                                                <span class=" text-black">
-                                                    {{ $kriteria->kode_kriteria }}
-                                                </span>
-                                            </td>
-                                            <th scope="row" class="text-center">
-                                                <div class="d-flex align-items-center justify-content-center">
-                                                    <span class="mb-0 text-sm">
-                                                        {{ $kriteria->nama_kriteria }}
+                                            <tr>
+                                                <td>
+                                                    <span class=" text-black">
+                                                        {{ $kriteria->kode_kriteria }}
                                                     </span>
-                                                </div>
-                                            </th>
-                                            <td>
-                                                <span class=" text-black">
-                                                    {{ $kriteria->type }}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <span class=" text-black">
-                                                    {{ $kriteria->bobot }}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <div class="actions">
-                                                    <a href="#" class="btn btn-sm btn-info">View</a>
-                                                    <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                                    <form id="#" action="#" method="POST" class="d-inline">
-                                                        {{-- @csrf
+                                                </td>
+                                                <th scope="row" class="text-center">
+                                                    <div class="d-flex align-items-center justify-content-center">
+                                                        <span class="mb-0 text-sm">
+                                                            {{ $kriteria->nama_kriteria }}
+                                                        </span>
+                                                    </div>
+                                                </th>
+                                                <td>
+                                                    <span class=" text-black">
+                                                        {{ $kriteria->type }}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span class=" text-black">
+                                                        {{ $kriteria->bobot }}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <div class="actions">
+                                                        <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                                        <form id="#" action="#" method="POST" class="d-inline">
+                                                            {{-- @csrf
                                                             @method('DELETE') --}}
-                                                        <button type="button" class="btn btn-sm btn-danger">
-                                                            Delete
-                                                        </button>
-                                                    </form>
-
-                                                </div>
-                                            </td>
-                                        </tr>
+                                                            <button type="button" class="btn btn-sm btn-danger">
+                                                                Delete
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </td>
+                                            </tr>
                                         @empty
-                                        <div class=" alert alert-danger rounded-0 text-center">
-                                            Data Kriteria belum ada.
-                                        </div>
+                                            <div class=" alert alert-danger rounded-0 text-center">
+                                                Data Kriteria belum ada.
+                                            </div>
                                         @endforelse
                                     </tbody>
                                 </table>
                             </div>
                             <div class="card-footer py-4">
-                                <nav aria-label="...">
-                                    <ul class="pagination justify-content-end mb-0">
-                                        <li class="page-item disabled">
-                                            <a class="page-link" href="#" tabindex="-1">
-                                                <i class="fas fa-angle-left"></i>
-                                                <span class="sr-only">Previous</span>
-                                            </a>
-                                        </li>
-                                        <li class="page-item active">
-                                            <a class="page-link" href="#">1</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-                                        </li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#">
-                                                <i class="fas fa-angle-right"></i>
-                                                <span class="sr-only">Next</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </nav>
                             </div>
                         </div>
                         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
