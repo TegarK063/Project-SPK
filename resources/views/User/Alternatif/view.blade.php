@@ -14,13 +14,14 @@
                     <div class="col">
                         <div class="card shadow">
                             <div class="card-header border-0">
-                                <a class="btn btn-primary text-white" href="{{ Route('Kriteria.create') }}">Tambah
+                                <a class="btn btn-primary text-white" href="{{ Route('Alternatif.create') }}">Tambah
                                     Alternatif</a>
                             </div>
                             <div class="table-responsive">
                                 <table class="table table-hover align-items-center table-flush">
                                     <thead class="thead-light text-center">
                                         <tr>
+                                            <th scope="col">Pilih</th>
                                             <th scope="col">Kode</th>
                                             <th scope="col">Nama Alternatif</th>
                                             <th scope="col">C1</th>
@@ -35,6 +36,10 @@
                                     <tbody class="text-center">
                                         @forelse ($alternatifs as $alternatif)
                                             <tr>
+                                                <td>
+                                                    <input type="checkbox" name="select_alternatif[]"
+                                                        value="{{ $alternatif->id }}">
+                                                </td>
                                                 <td>
                                                     <span class=" text-black">
                                                         {{ $alternatif->kode_alternatif }}

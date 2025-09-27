@@ -13,4 +13,8 @@ class Product extends Model
         'description',
         'price',
     ];
+    public function alternatifs()
+    {
+        return $$this->hasMany(alternatif::class);
+    }
 }

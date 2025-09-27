@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\alternatif;
+use App\Models\Product;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class alternatifController extends Controller
@@ -14,5 +16,32 @@ class alternatifController extends Controller
         $alternatifs = alternatif::with('product')->get();
         // render view
         return view('User.Alternatif.view', compact('alternatifs'));
+    }
+
+    public function create() : View
+    {
+        // get data from model product
+        $products = Product::all();
+        // Generate kode_alternatif otomatis
+        $last = alternatif::orderBy('id', 'desc')->first();
+        $newNumber = $last ? (int) substr($last->kode_alternatif, 1) + 1 : 1;
+        $kode_alternatif = 'A' . str_pad($newNumber, 2, '0', STR_PAD_LEFT);
+        return view('User.Alternatif.create', compact('kode_alternatif', 'products'));
+    }
+
+    public function store(Request $request) : RedirectResponse
+    {
+        $request->validate([
+            'kode_alternatif' => 'required|unique:alternatifs,kode_alternatif',
+            'product_id' => 'required|exists:products,id',
+            'performance' => 'required|integer|min:1|max:100',
+            'camera' => 'required|integer|min:1|max:100',
+            'battery' => 'required|integer|min:1',
+            'aftersales' => 'required|integer|min:1|max:10',
+        ]);
+        // simpan data
+        alternatif::create($request->all());
+        // redirect to index
+        return redirect()->route('Alternatif.index')->with('success', 'Data Berhasil Disimpan!');
     }
 }
