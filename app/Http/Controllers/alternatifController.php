@@ -66,4 +66,11 @@ class alternatifController extends Controller
         $alt->update($request->all());
         return redirect()->route('Alternatif.index')->with('success', 'Data Berhasil Diupdate!');
     }
+
+    public function destroy($id) : RedirectResponse
+    {
+        $alt = alternatif::findOrFail($id);
+        $alt->delete();
+        return redirect()->route('Alternatif.index')->with('success', 'Data Berhasil Dihapus!');
+    }
 }

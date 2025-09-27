@@ -86,13 +86,13 @@
                                                     <div class="actions">
                                                         <a href="{{ route('Alternatif.edit', $alternatif->id) }}"
                                                             class="btn btn-sm btn-warning">Edit</a>
-                                                        <form id="delete-form-"
-                                                            action=""
+                                                        <form id="delete-form-{{ $alternatif->id }}"
+                                                            action="{{ route('Alternatif.destroy', $alternatif->id) }}"
                                                             method="POST" class="d-inline">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="button" class="btn btn-sm btn-danger"
-                                                                onclick="confirmDelete(, '')">
+                                                                onclick="confirmDelete({{ $alternatif->id }}, '{{ $alternatif->product->series }}')">
                                                                 Delete
                                                             </button>
                                                         </form>
