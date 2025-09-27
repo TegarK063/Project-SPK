@@ -44,4 +44,26 @@ class alternatifController extends Controller
         // redirect to index
         return redirect()->route('Alternatif.index')->with('success', 'Data Berhasil Disimpan!');
     }
+
+    public function edit($id) : View
+    {
+        $alt = alternatif::findOrFail($id);
+        $products = Product::all();
+        return view('User.Alternatif.edit', compact('alt', 'products'));
+    }
+
+    public function update(Request $request, $id) : RedirectResponse
+    {
+        $alt = alternatif::findOrFail($id);
+        $request->validate([
+            'kode_alternatif' => 'required|unique:alternatifs,kode_alternatif,' . $alt->id,
+            'product_id' => 'required|exists:products,id',
+            'performance' => 'required|integer|min:1|max:100',
+            'camera' => 'required|integer|min:1|max:100',
+            'battery' => 'required|integer|min:1',
+            'aftersales' => 'required|integer|min:1|max:10',
+        ]);
+        $alt->update($request->all());
+        return redirect()->route('Alternatif.index')->with('success', 'Data Berhasil Diupdate!');
+    }
 }

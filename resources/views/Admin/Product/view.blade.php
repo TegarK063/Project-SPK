@@ -8,7 +8,7 @@
 
     <body>
         <div class="main-content mb-5">
-            <div class="container mt-7">
+            <div class="container-fluid mt-7">
                 <div class="row">
 
                     <div class="col">

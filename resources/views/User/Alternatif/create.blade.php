@@ -104,7 +104,7 @@
                     <label class="text-white dark:text-gray-200" for="aftersales">Aftersales</label>
                     <input id="aftersales" type="number" name="aftersales" value="{{ old('aftersales') }}"
                         class="@error('aftersales') is-invalid @enderror block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-pink-500 dark:focus:border-pink-500 focus:outline-none focus:ring"
-                        placeholder="Masukkan Aftersales 1-10" min="1" max="100" required>
+                        placeholder="Masukkan Aftersales 1-10" min="1" max="10" required>
                     @error('aftersales')
                         <div class="text-red-500 mt-1">
                             {{ $message }}

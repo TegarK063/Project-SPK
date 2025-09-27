@@ -8,7 +8,7 @@
 
     <body>
         <div class="main-content mb-5">
-            <div class="container mt-7">
+            <div class="container-fluid mt-7">
                 <div class="row">
 
                     <div class="col">
@@ -24,12 +24,12 @@
                                             <th scope="col">Pilih</th>
                                             <th scope="col">Kode</th>
                                             <th scope="col">Nama Alternatif</th>
-                                            <th scope="col">C1</th>
-                                            <th scope="col">C2</th>
-                                            <th scope="col">C3</th>
-                                            <th scope="col">C4</th>
-                                            <th scope="col">C5</th>
-                                            <th scope="col">C6</th>
+                                            <th scope="col">Price</th>
+                                            <th scope="col">Performance</th>
+                                            <th scope="col">Camera</th>
+                                            <th scope="col">Battery</th>
+                                            <th scope="col">Storage</th>
+                                            <th scope="col">Aftersales</th>
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>
@@ -84,7 +84,7 @@
                                                 </td>
                                                 <td>
                                                     <div class="actions">
-                                                        <a href="#"
+                                                        <a href="{{ route('Alternatif.edit', $alternatif->id) }}"
                                                             class="btn btn-sm btn-warning">Edit</a>
                                                         <form id="delete-form-"
                                                             action=""
