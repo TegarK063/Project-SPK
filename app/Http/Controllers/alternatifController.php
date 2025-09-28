@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\alternatif;
+use App\Models\kriteria;
 use App\Models\Product;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -67,10 +68,97 @@ class alternatifController extends Controller
         return redirect()->route('Alternatif.index')->with('success', 'Data Berhasil Diupdate!');
     }
 
+        public function view(): View
+    {
+        $alternatifs = alternatif::with('product')->get();
+        return view('User.Alternatif.alt_view', compact('alternatifs'));
+    }
+
     public function destroy($id) : RedirectResponse
     {
         $alt = alternatif::findOrFail($id);
         $alt->delete();
         return redirect()->route('Alternatif.index')->with('success', 'Data Berhasil Dihapus!');
     }
+
+    public function moora(Request $request): View
+    {
+        // Ambil alternatif yang dipilih (kalau ada)
+        $ids = $request->input('select_alternatif', []);
+
+        if (!empty($ids)) {
+            $alternatifs = Alternatif::with('product')->whereIn('id', $ids)->get();
+        } else {
+            $alternatifs = Alternatif::with('product')->get();
+        }
+
+        $kriterias = Kriteria::all();
+
+        // --- Mapping kode_kriteria ke field di tabel
+        $mapping = [
+            'C01' => 'product.price',
+            'C02' => 'performance',
+            'C03' => 'camera',
+            'C04' => 'battery',
+            'C05' => 'product.storage',
+            'C06' => 'aftersales',
+        ];
+
+        // --- Matriks keputusan
+        $matrix = [];
+        foreach ($alternatifs as $alt) {
+            foreach ($kriterias as $k) {
+                $field = $mapping[$k->kode_kriteria] ?? null;
+                if ($field) {
+                    if (str_starts_with($field, 'product.')) {
+                        $col = str_replace('product.', '', $field);
+                        $matrix[$alt->id][$k->kode_kriteria] = $alt->product->$col;
+                    } else {
+                        $matrix[$alt->id][$k->kode_kriteria] = $alt->$field;
+                    }
+                }
+            }
+        }
+
+        // --- Hitung penyebut normalisasi
+        $denominator = [];
+        foreach ($kriterias as $k) {
+            $sumSquares = 0;
+            foreach ($alternatifs as $alt) {
+                $sumSquares += pow($matrix[$alt->id][$k->kode_kriteria], 2);
+            }
+            $denominator[$k->kode_kriteria] = sqrt($sumSquares);
+        }
+
+        // --- Normalisasi & Optimasi
+        $normalisasi = [];
+        $optimasi = [];
+        foreach ($alternatifs as $alt) {
+            $nilai = 0;
+            foreach ($kriterias as $k) {
+                $r = $matrix[$alt->id][$k->kode_kriteria] / $denominator[$k->kode_kriteria];
+                $normalisasi[$alt->id][$k->kode_kriteria] = $r;
+
+                $bobot = (float) $k->bobot;
+                if (strtolower($k->type) === 'benefit') {
+                    $nilai += $r * $bobot;
+                } else {
+                    $nilai -= $r * $bobot;
+                }
+            }
+            $optimasi[$alt->id] = $nilai;
+        }
+
+        // --- Ranking
+        arsort($optimasi);
+
+        return view('User.Alternatif.moora', compact(
+            'alternatifs',
+            'kriterias',
+            'matrix',
+            'normalisasi',
+            'optimasi'
+        ));
+    }
+
 }

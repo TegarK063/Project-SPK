@@ -28,7 +28,7 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="{{ Route ('Alternatif.index') }}">Alternatif</a></li>
-                            <li><a class="dropdown-item" href="">Output</a></li>
+                            <li><a class="dropdown-item" href="{{ Route ('Alternatif.view') }}">Data Alternatif</a></li>
                         </ul>
                     </li>
                 </ul>

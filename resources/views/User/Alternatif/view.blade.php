@@ -21,7 +21,7 @@
                                 <table class="table table-hover align-items-center table-flush">
                                     <thead class="thead-light text-center">
                                         <tr>
-                                            <th scope="col">Pilih</th>
+                                            {{-- <th scope="col">Pilih</th> --}}
                                             <th scope="col">Kode</th>
                                             <th scope="col">Nama Alternatif</th>
                                             <th scope="col">Price</th>
@@ -36,10 +36,10 @@
                                     <tbody class="text-center">
                                         @forelse ($alternatifs as $alternatif)
                                             <tr>
-                                                <td>
+                                                {{-- <td>
                                                     <input type="checkbox" name="select_alternatif[]"
                                                         value="{{ $alternatif->id }}">
-                                                </td>
+                                                </td> --}}
                                                 <td>
                                                     <span class=" text-black">
                                                         {{ $alternatif->kode_alternatif }}

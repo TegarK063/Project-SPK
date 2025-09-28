@@ -13,5 +13,8 @@ Route::get('/', function () {
 Route::resource('/Products', productController::class);
 Route::resource('/userProduct', productuser::class);
 Route::resource('/Kriteria', kriteriaController::class);
-Route::resource('/Alternatif', alternatifController::class);
+Route::resource('/Alternatif', alternatifController::class)->except(['show']);
+Route::get('/Alternatif/view', [alternatifController::class, 'view'])->name('Alternatif.view');
 // Route::view('/kriteria', 'Admin.Kriteria.view')->name('kriteria');
+Route::get('/alternatif/moora', [alternatifController::class, 'moora'])->name('alternatif.moora');
+Route::post('/alternatif/moora', [alternatifController::class, 'moora'])->name('alternatif.moora.post');
