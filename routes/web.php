@@ -18,3 +18,4 @@ Route::get('/Alternatif/view', [alternatifController::class, 'view'])->name('Alt
 // Route::view('/kriteria', 'Admin.Kriteria.view')->name('kriteria');
 Route::get('/alternatif/moora', [alternatifController::class, 'moora'])->name('alternatif.moora');
 Route::post('/alternatif/moora', [alternatifController::class, 'moora'])->name('alternatif.moora.post');
+Route::get('/alternatif/rekomendasi', [alternatifController::class, 'rekomendasi'])->name('alternatif.rekomendasi');
