@@ -184,17 +184,6 @@
                                 @endforeach
                             </div>
                         </div>
-                        <div class="col-md-4 mb-3">
-                            <label for="rank" class="form-label">Pilih Ranking</label>
-                            <select class="form-control" name="rank" id="rank">
-                                <option value="">-- Semua --</option>
-                                @php $i=1; @endphp
-                                @foreach ($allOptimasi ?? $optimasi as $id => $nilai)
-                                    <option value="{{ $i }}" {{ request('rank') == $i ? 'selected' : '' }}>
-                                        Ranking {{ $i++ }}</option>
-                                @endforeach
-                            </select>
-                        </div>
                     </div>
                     <button type="submit" class="btn btn-success">Terapkan</button>
                     <a href="{{ route('alternatif.rekomendasi') }}" class="btn btn-light border ml-2">Reset</a>
