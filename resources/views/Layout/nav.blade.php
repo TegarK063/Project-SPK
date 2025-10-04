@@ -9,28 +9,39 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
                     <li class="nav-item"><a class="nav-link me-lg-3" href="{{ url('/dashboard') }}">Features</a></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Admin
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="{{ Route('Products.index') }}">Kelola Product</a></li>
-                            <li><a class="dropdown-item" href="{{ Route('Kriteria.index') }}">Kelola Kritetia</a></li>
-                        </ul>
-                    </li>
+                    
+                    @auth
+                        @if(Auth::user()->isAdmin())
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Admin
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{{ Route('Products.index') }}">Kelola Product</a></li>
+                                <li><a class="dropdown-item" href="{{ Route('Kriteria.index') }}">Kelola Kritetia</a></li>
+                            </ul>
+                        </li>
+                        @endif
+                    @endauth
+                    
                     <li class="nav-item"><a class="nav-link me-lg-3" href="{{ Route('alternatif.rekomendasi') }}">Product</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Pengujian Moora
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="{{ Route ('Alternatif.index') }}">Alternatif</a></li>
-                            <li><a class="dropdown-item" href="{{ Route ('Alternatif.view') }}">Data Alternatif</a></li>
-                        </ul>
-                    </li>
+                    
+                    @auth
+                        @if(Auth::user()->isAdmin())
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Pengujian Moora
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{{ Route ('Alternatif.index') }}">Alternatif</a></li>
+                                <li><a class="dropdown-item" href="{{ Route ('Alternatif.view') }}">Data Alternatif</a></li>
+                            </ul>
+                        </li>
+                        @endif
+                    @endauth
                     
                     @auth
                     <!-- User Profile Dropdown -->
