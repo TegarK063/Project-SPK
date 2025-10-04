@@ -16,24 +16,24 @@
 </head>
 
 <body>
-    <section class="min-h-screen p-6 bg-zinc-600 shadow-md dark:bg-gray-800">
-        <h1 class="text-xl font-bold text-white capitalize dark:text-white">Add Alternatif</h1>
+    <section class="min-h-screen p-6 bg-zinc-600 shadow-md">
+        <h1 class="text-xl font-bold text-white capitalize">Add Alternatif</h1>
         <form action="{{ route('Alternatif.update', $alt->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="grid grid-cols-1 gap-6 mt-4">
                 <div>
-                    <label class="text-white dark:text-gray-200" for="kode_alternatif">Kode Alternatif</label>
+                    <label class="text-white" for="kode_alternatif">Kode Alternatif</label>
                     <input id="kode_alternatif" type="text" name="kode_alternatif"
                         value="{{ old('kode_alternatif', $alt->kode_alternatif) }}"
                         class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md
-                dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600
-                focus:border-pink-500 dark:focus:border-pink-500 focus:outline-none focus:ring"
+               
+                focus:border-pink-500 focus:outline-none focus:ring"
                         readonly>
                 </div <div>
-                <label class="text-white dark:text-gray-200" for="product_id">Pilih Series</label>
+                <label class="text-white" for="product_id">Pilih Series</label>
                 <select id="product_id" name="product_id"
-                    class="@error('product_id') is-invalid @enderror block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-pink-500 dark:focus:border-pink-500 focus:outline-none focus:ring">
+                    class="@error('product_id') is-invalid @enderror block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:border-pink-500 focus:outline-none focus:ring">
 
                     <option value="">-- Pilih Series --</option>
                     @foreach ($products as $product)
@@ -53,23 +53,23 @@
             </div>
 
             <div class="mt-3">
-                <label class="text-white dark:text-gray-200" for="price">Harga</label>
+                <label class="text-white" for="price">Harga</label>
                 <input id="price" type="text" value="{{ old('price', $alt->product->price) }}"
-                    class="block w-full px-4 py-2 mt-2 text-gray-700 bg-gray-100 border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600"
+                    class="block w-full px-4 py-2 mt-2 text-gray-700 bg-gray-100 border border-gray-300 rounded-md"
                     readonly>
             </div>
 
             <div class="mt-3">
-                <label class="text-white dark:text-gray-200" for="storage">Storage</label>
+                <label class="text-white" for="storage">Storage</label>
                 <input id="storage" type="text" value="{{ old('storage', $alt->product->storage) }}"
-                    class="block w-full px-4 py-2 mt-2 text-gray-700 bg-gray-100 border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600"
+                    class="block w-full px-4 py-2 mt-2 text-gray-700 bg-gray-100 border border-gray-300 rounded-md"
                     readonly>
             </div>
 
             <div>
-                <label class="text-white dark:text-gray-200" for="performance">Performance</label>
+                <label class="text-white" for="performance">Performance</label>
                 <input id="performance" type="number" name="performance" value="{{ old('performance', $alt->performance) }}"
-                    class="@error('performance') is-invalid @enderror block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-pink-500 dark:focus:border-pink-500 focus:outline-none focus:ring"
+                    class="@error('performance') is-invalid @enderror block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:border-pink-500 focus:outline-none focus:ring"
                     placeholder="Masukkan Performance 1-100" min="1" max="100" required>
                 @error('performance')
                     <div class="text-red-500 mt-1">
@@ -79,9 +79,9 @@
             </div>
 
             <div>
-                <label class="text-white dark:text-gray-200" for="camera">Camera</label>
+                <label class="text-white" for="camera">Camera</label>
                 <input id="camera" type="number" name="camera" value="{{ old('camera', $alt->camera) }}"
-                    class="@error('camera') is-invalid @enderror block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-pink-500 dark:focus:border-pink-500 focus:outline-none focus:ring"
+                    class="@error('camera') is-invalid @enderror block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:border-pink-500 focus:outline-none focus:ring"
                     placeholder="Masukkan Camera 1-100" min="1" max="100" required>
                 @error('camera')
                     <div class="text-red-500 mt-1">
@@ -91,9 +91,9 @@
             </div>
 
             <div>
-                <label class="text-white dark:text-gray-200" for="battery">Battery</label>
+                <label class="text-white" for="battery">Battery</label>
                 <input id="battery" type="number" name="battery" value="{{ old('battery', $alt->battery) }}"
-                    class="@error('battery') is-invalid @enderror block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-pink-500 dark:focus:border-pink-500 focus:outline-none focus:ring"
+                    class="@error('battery') is-invalid @enderror block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:border-pink-500 focus:outline-none focus:ring"
                     placeholder="Masukkan Ketahanan Battery" min="1" max="100" required>
                 @error('battery')
                     <div class="text-red-500 mt-1">
@@ -103,9 +103,9 @@
             </div>
 
             <div>
-                <label class="text-white dark:text-gray-200" for="aftersales">Aftersales</label>
+                <label class="text-white" for="aftersales">Aftersales</label>
                 <input id="aftersales" type="number" name="aftersales" value="{{ old('aftersales', $alt->aftersales) }}"
-                    class="@error('aftersales') is-invalid @enderror block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-pink-500 dark:focus:border-pink-500 focus:outline-none focus:ring"
+                    class="@error('aftersales') is-invalid @enderror block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:border-pink-500 focus:outline-none focus:ring"
                     placeholder="Masukkan Aftersales 1-10" min="1" max="10" required>
                 @error('aftersales')
                     <div class="text-red-500 mt-1">

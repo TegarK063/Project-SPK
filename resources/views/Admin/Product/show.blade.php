@@ -12,7 +12,7 @@
 
 <!-- component -->
 
-<body class="font-mono bg-zinc-600 shadow-md dark:bg-gray-800">
+<body class="font-mono bg-zinc-600 shadow-md">
     <!-- component -->
     <div class="max-w-4xl mx-auto my-40">
         <div class="bg-white rounded-2xl shadow p-6">

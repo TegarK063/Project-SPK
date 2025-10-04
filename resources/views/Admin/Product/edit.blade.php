@@ -16,16 +16,16 @@
 </head>
 
 <body>
-    <section class="min-h-screen p-6 bg-zinc-600 shadow-md dark:bg-gray-800">
-        <h1 class="text-xl font-bold text-white capitalize dark:text-white">Edit Product</h1>
+    <section class="min-h-screen p-6 bg-zinc-600 shadow-md">
+        <h1 class="text-xl font-bold text-white capitalize">Edit Product</h1>
         <form action="{{ route('Products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="grid grid-cols-1 gap-6 mt-4">
                 <div>
-                    <label class="text-white dark:text-gray-200" for="series">Series</label>
+                    <label class="text-white" for="series">Series</label>
                     <input id="series" type="text" name="series" value="{{ old('series', $product->series) }}"
-                        class="@error('series') is-invalid @enderror block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-pink-500 dark:focus:border-pink-500 focus:outline-none focus:ring"
+                        class="@error('series') is-invalid @enderror block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:border-pink-500 focus:outline-none focus:ring"
                         placeholder="Masukkan Series Product">
                     @error('series')
                         <div class="text-red-500 mt-1 ">
@@ -35,9 +35,9 @@
                 </div>
 
                 <div>
-                    <label class="text-white dark:text-gray-200" for="storage">Storage</label>
+                    <label class="text-white" for="storage">Storage</label>
                     <input id="storage" type="number" name="storage" value="{{ old('storage', $product->storage) }}"
-                        class="@error('storage') is-invalid @enderror block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-pink-500 dark:focus:border-pink-500 focus:outline-none focus:ring"
+                        class="@error('storage') is-invalid @enderror block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:border-pink-500 focus:outline-none focus:ring"
                         placeholder="Masukkan Storage Product">
                     @error('storage')
                         <div class="text-red-500 mt-1">
@@ -47,9 +47,9 @@
                 </div>
 
                 <div>
-                    <label class="text-white dark:text-gray-200" for="price">Price</label>
+                    <label class="text-white" for="price">Price</label>
                     <input id="price" type="text" name="price" value="{{ old('price', $product->price) }}"
-                        class="@error('price') is-invalid @enderror block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-pink-500 dark:focus:border-pink-500 focus:outline-none focus:ring"
+                        class="@error('price') is-invalid @enderror block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:border-pink-500 focus:outline-none focus:ring"
                         placeholder="Masukkan Price Product">
                     @error('price')
                         <div class="text-red-500 mt-1">
@@ -59,9 +59,9 @@
                 </div>
 
                 <div>
-                    <label class="text-white dark:text-gray-200" for="description">Description</label>
+                    <label class="text-white" for="description">Description</label>
                     <textarea id="description" name="description"
-                        class="@error('description') is-invalid @enderror block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-pink-500 dark:focus:border-pink-500 focus:outline-none focus:ring">{{ old('description', $product->description) }}</textarea>
+                        class="@error('description') is-invalid @enderror block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:border-pink-500 focus:outline-none focus:ring">{{ old('description', $product->description) }}</textarea>
                     @error('description')
                         <div class="text-red-500 mt-1">
                             {{ $message }}
