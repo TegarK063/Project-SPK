@@ -12,9 +12,10 @@ class Product extends Model
         'storage',
         'description',
         'price',
+        'link'
     ];
     public function alternatifs()
     {
-        return $$this->hasMany(alternatif::class);
+        return $this->hasMany(alternatif::class);
     }
 }

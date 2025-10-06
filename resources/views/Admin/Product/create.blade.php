@@ -69,6 +69,18 @@
                 </div>
 
                 <div>
+                    <label class="text-white" for="link">Link</label>
+                    <input id="link" type="text" name="link" value="{{ old('link') }}"
+                        class="@error('link') is-invalid @enderror block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:border-pink-500 focus:outline-none focus:ring"
+                        placeholder="Masukkan Link Product">
+                    @error('link')
+                        <div class="text-red-500 mt-1 ">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+
+                <div>
                     <label class="block text-sm font-medium text-white">
                         Image
                     </label>
@@ -108,7 +120,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="flex justify-end mt-6">
                 <button type="submit"
                     class="mr-2 px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-pink-700 rounded-md hover:bg-pink-600 focus:outline-none focus:bg-pink-600">Save</button>

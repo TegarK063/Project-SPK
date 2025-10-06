@@ -28,6 +28,14 @@
                 <!-- Informasi Produk -->
                 <div class="space-y-4">
                     <div>
+                        <p class="text-sm text-gray-500">Link</p>
+                        <a href="{{ $product->link }}"
+                            class="text-lg font-semibold text-gray-800 break-words whitespace-normal block">
+                            {{ $product->link }}
+                        </a>
+                    </div>
+
+                    <div>
                         <p class="text-sm text-gray-500">Series</p>
                         <p class="text-lg font-semibold text-gray-800">{{ $product->series }}</p>
                     </div>

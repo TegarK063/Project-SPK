@@ -34,6 +34,7 @@ class productController extends Controller
             'storage' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|integer',
+            'link' => 'required|string',
         ]);
 
         // upload image
@@ -47,6 +48,7 @@ class productController extends Controller
             'storage' => $request->storage,
             'description' => $request->description,
             'price' => $request->price,
+            'link' => $request->link,
         ]);
         // redirect to index
         return redirect()->route('Products.index')->with(['success' => 'Data Berhasil Disimpan!']);
@@ -78,6 +80,7 @@ class productController extends Controller
             'storage' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|integer',
+            'link' => 'required|string',
         ]);
 
         // get data by id
@@ -99,6 +102,7 @@ class productController extends Controller
                 'storage' => $request->storage,
                 'description' => $request->description,
                 'price' => $request->price,
+                'link' => $request->link,
             ]);
         } else {
             // update data without new image
@@ -107,6 +111,7 @@ class productController extends Controller
                 'storage' => $request->storage,
                 'description' => $request->description,
                 'price' => $request->price,
+                'link' => $request->link,
             ]);
         }
 

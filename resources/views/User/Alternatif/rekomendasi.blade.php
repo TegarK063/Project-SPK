@@ -166,10 +166,13 @@
             }
 
             @keyframes pulse-glow {
-                0%, 100% {
+
+                0%,
+                100% {
                     box-shadow: 0 0 20px rgba(40, 167, 69, 0.5);
                     transform: scale(1);
                 }
+
                 50% {
                     box-shadow: 0 0 30px rgba(40, 167, 69, 0.8);
                     transform: scale(1.05);
@@ -210,8 +213,13 @@
             }
 
             @keyframes shimmer-champion {
-                0% { left: -100%; }
-                100% { left: 100%; }
+                0% {
+                    left: -100%;
+                }
+
+                100% {
+                    left: 100%;
+                }
             }
         </style>
 
@@ -269,11 +277,13 @@
                 $firstNilai = $optimasi[$firstId];
             @endphp
             @if ($firstAlt)
-                <div class="card shadow-lg mb-4 champion-card" style="border: 2px solid #28a745; background: linear-gradient(135deg, #f8fff9 0%, #e8f5e8 100%);">
+                <div class="card shadow-lg mb-4 champion-card"
+                    style="border: 2px solid #28a745; background: linear-gradient(135deg, #f8fff9 0%, #e8f5e8 100%);">
                     <div class="card-body">
                         <div class="row align-items-center">
                             <div class="col-md-2 text-center">
-                                <div class="rank-badge-special" style="background: linear-gradient(135deg, #28a745, #20c997); color: white; padding: 15px; border-radius: 50%; font-size: 1.2rem; font-weight: bold; display: inline-block; width: 80px; height: 80px; line-height: 50px;">
+                                <div class="rank-badge-special"
+                                    style="background: linear-gradient(135deg, #28a745, #20c997); color: white; padding: 15px; border-radius: 50%; font-size: 1.2rem; font-weight: bold; display: inline-block; width: 80px; height: 80px; line-height: 50px;">
                                     #1
                                 </div>
                             </div>
@@ -291,13 +301,14 @@
                                     }
                                 @endphp
                                 <img src="{{ $src }}" alt="{{ $firstAlt->product->series }}"
-                                     style="width: 100%; height: 200px; object-fit: contain; border-radius: 12px; background: #f8f9fa;" />
+                                    style="width: 100%; height: 200px; object-fit: contain; border-radius: 12px; background: #f8f9fa;" />
                             </div>
                             <div class="col-md-6">
                                 <h4 class="text-success mb-2">{{ $firstAlt->product->series }}</h4>
                                 <div class="mb-3">
                                     <span class="badge bg-primary me-2">{{ $firstAlt->product->storage }} GB</span>
-                                    <span class="badge bg-warning text-dark">Rp {{ number_format($firstAlt->product->price, 0, ',', '.') }}</span>
+                                    <span class="badge bg-warning text-dark">Rp
+                                        {{ number_format($firstAlt->product->price, 0, ',', '.') }}</span>
                                 </div>
 
                                 {{-- Analysis of why it's #1 --}}
@@ -315,7 +326,7 @@
                                                 'C03' => 'Kamera',
                                                 'C04' => 'Baterai',
                                                 'C05' => 'Storage',
-                                                'C06' => 'After Sales'
+                                                'C06' => 'After Sales',
                                             ];
 
                                             // Calculate contribution of each criteria to the final score
@@ -323,21 +334,23 @@
                                                 if (isset($normalisasi[$firstId][$k->kode_kriteria])) {
                                                     $normalizedValue = $normalisasi[$firstId][$k->kode_kriteria];
                                                     $weight = (float) $k->bobot;
-                                                    $contribution = strtolower($k->type) === 'benefit'
-                                                        ? $normalizedValue * $weight
-                                                        : -($normalizedValue * $weight);
+                                                    $contribution =
+                                                        strtolower($k->type) === 'benefit'
+                                                            ? $normalizedValue * $weight
+                                                            : -($normalizedValue * $weight);
                                                     $topCriteria[] = [
-                                                        'name' => $criteriaNames[$k->kode_kriteria] ?? $k->nama_kriteria,
+                                                        'name' =>
+                                                            $criteriaNames[$k->kode_kriteria] ?? $k->nama_kriteria,
                                                         'contribution' => $contribution,
                                                         'type' => $k->type,
                                                         'weight' => $weight,
-                                                        'raw_value' => $matrix[$firstId][$k->kode_kriteria] ?? 0
+                                                        'raw_value' => $matrix[$firstId][$k->kode_kriteria] ?? 0,
                                                     ];
                                                 }
                                             }
 
                                             // Sort by contribution (highest positive impact first)
-                                            usort($topCriteria, function($a, $b) {
+                                            usort($topCriteria, function ($a, $b) {
                                                 return $b['contribution'] <=> $a['contribution'];
                                             });
                                         @endphp
@@ -357,9 +370,13 @@
                                                     $icon = '💰';
                                                     // For price (Cost criteria), negative contribution means lower price = better
                                                     if ($type === 'Cost') {
-                                                        $description = $isPositive ? 'Harga lebih mahal' : 'Harga terjangkau';
+                                                        $description = $isPositive
+                                                            ? 'Harga lebih mahal'
+                                                            : 'Harga terjangkau';
                                                     } else {
-                                                        $description = $isPositive ? 'Harga terjangkau' : 'Harga lebih mahal';
+                                                        $description = $isPositive
+                                                            ? 'Harga terjangkau'
+                                                            : 'Harga lebih mahal';
                                                     }
                                                 } elseif ($name === 'Performance') {
                                                     $icon = '⚡';
@@ -398,8 +415,7 @@
                                                     }
                                                 }
                                             @endphp
-                                            <div class="criteria-item mb-2 p-2 rounded"
-                                                 style="background: #d4edda;">
+                                            <div class="criteria-item mb-2 p-2 rounded" style="background: #d4edda;">
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <span class="fw-bold">
                                                         {{ $icon }} {{ $description }}
@@ -423,16 +439,20 @@
                                                     'C03' => 'Kamera',
                                                     'C04' => 'Baterai',
                                                     'C05' => 'Storage',
-                                                    'C06' => 'After Sales'
+                                                    'C06' => 'After Sales',
                                                 ];
 
                                                 // Get the top criteria that contributed most positively
-                                                $positiveCriteria = array_filter($topCriteria, function($c) {
+                                                $positiveCriteria = array_filter($topCriteria, function ($c) {
                                                     return $c['contribution'] > 0;
                                                 });
 
                                                 // Always show at least 2-3 criteria, or all if less than 3
-                                                $topStrengths = array_slice($positiveCriteria, 0, max(2, min(3, count($positiveCriteria))));
+                                                $topStrengths = array_slice(
+                                                    $positiveCriteria,
+                                                    0,
+                                                    max(2, min(3, count($positiveCriteria))),
+                                                );
 
                                                 // If we have less than 2 positive criteria, include some from the top criteria regardless of contribution
                                                 if (count($topStrengths) < 2) {
@@ -445,34 +465,63 @@
                                                     $type = $criteria['type'];
 
                                                     if ($name === 'Harga') {
-                                                        $strengths[] = "Harga terjangkau (Rp " . number_format($value, 0, ',', '.') . ")";
+                                                        $strengths[] =
+                                                            'Harga terjangkau (Rp ' .
+                                                            number_format($value, 0, ',', '.') .
+                                                            ')';
                                                     } elseif ($name === 'Performance') {
-                                                        $strengths[] = "Performance tinggi (" . number_format($value, 1) . "/10)";
+                                                        $strengths[] =
+                                                            'Performance tinggi (' . number_format($value, 1) . '/10)';
                                                     } elseif ($name === 'Kamera') {
-                                                        $strengths[] = "Kualitas kamera bagus (" . number_format($value, 1) . "/10)";
+                                                        $strengths[] =
+                                                            'Kualitas kamera bagus (' .
+                                                            number_format($value, 1) .
+                                                            '/10)';
                                                     } elseif ($name === 'Baterai') {
-                                                        $strengths[] = "Daya tahan baterai kuat (" . number_format($value, 0) . " Jam)";
+                                                        $strengths[] =
+                                                            'Daya tahan baterai kuat (' .
+                                                            number_format($value, 0) .
+                                                            ' Jam)';
                                                     } elseif ($name === 'Storage') {
-                                                        $strengths[] = "Kapasitas storage besar (" . number_format($value, 0) . " GB)";
+                                                        $strengths[] =
+                                                            'Kapasitas storage besar (' .
+                                                            number_format($value, 0) .
+                                                            ' GB)';
                                                     } elseif ($name === 'After Sales') {
-                                                        $strengths[] = "Layanan after sales baik (" . number_format($value, 1) . "/10)";
+                                                        $strengths[] =
+                                                            'Layanan after sales baik (' .
+                                                            number_format($value, 1) .
+                                                            '/10)';
                                                     }
                                                 }
 
-                                                $explanation = "Produk ini mendapat ranking #1 karena ";
+                                                $explanation = 'Produk ini mendapat ranking #1 karena ';
                                                 if (!empty($strengths)) {
                                                     if (count($strengths) == 1) {
-                                                        $explanation .= $strengths[0] . ".";
+                                                        $explanation .= $strengths[0] . '.';
                                                     } elseif (count($strengths) == 2) {
-                                                        $explanation .= $strengths[0] . " dan " . $strengths[1] . ".";
+                                                        $explanation .= $strengths[0] . ' dan ' . $strengths[1] . '.';
                                                     } elseif (count($strengths) == 3) {
-                                                        $explanation .= $strengths[0] . ", " . $strengths[1] . ", dan " . $strengths[2] . ".";
+                                                        $explanation .=
+                                                            $strengths[0] .
+                                                            ', ' .
+                                                            $strengths[1] .
+                                                            ', dan ' .
+                                                            $strengths[2] .
+                                                            '.';
                                                     } else {
                                                         // For more than 3, show first 3
-                                                        $explanation .= $strengths[0] . ", " . $strengths[1] . ", dan " . $strengths[2] . ".";
+                                                        $explanation .=
+                                                            $strengths[0] .
+                                                            ', ' .
+                                                            $strengths[1] .
+                                                            ', dan ' .
+                                                            $strengths[2] .
+                                                            '.';
                                                     }
                                                 } else {
-                                                    $explanation .= "memiliki kombinasi terbaik dari semua kriteria yang dinilai.";
+                                                    $explanation .=
+                                                        'memiliki kombinasi terbaik dari semua kriteria yang dinilai.';
                                                 }
                                             @endphp
                                             {{ $explanation }}
@@ -529,8 +578,8 @@
                                         <p class="desc-text mb-0 clamp-2">
                                             {{ \Illuminate\Support\Str::limit($alt->product->description, 140) }}</p>
                                         <div class="mt-auto">
-                                            <button type="button" class="btn btn-success mt-3"
-                                                data-bs-toggle="modal" data-bs-target="#modalProduct-{{ $id }}">
+                                            <button type="button" class="btn btn-success mt-3" data-bs-toggle="modal"
+                                                data-bs-target="#modalProduct-{{ $id }}">
                                                 Lihat Detail
                                             </button>
                                         </div>
@@ -538,12 +587,14 @@
                                 </div>
                             </div>
                             {{-- Modal Detail Produk --}}
-                            <div class="modal fade" id="modalProduct-{{ $id }}" tabindex="-1" aria-hidden="true">
+                            <div class="modal fade" id="modalProduct-{{ $id }}" tabindex="-1"
+                                aria-hidden="true">
                                 <div class="modal-dialog modal-lg modal-dialog-centered">
                                     <div class="modal-content rounded-3">
                                         <div class="modal-header border-0">
                                             <h5 class="modal-title mb-0">{{ $alt->product->series }}</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
                                             <div class="row">
@@ -555,10 +606,18 @@
                                                 </div>
                                                 <div class="col-md-7">
                                                     <div class="d-flex align-items-center flex-wrap mb-3">
-                                                        <span class="price-chip me-2 mb-2">Rp {{ number_format($alt->product->price, 0, ',', '.') }}</span>
+                                                        <span class="price-chip me-2 mb-2">Rp
+                                                            {{ number_format($alt->product->price, 0, ',', '.') }}</span>
                                                         <span class="chip mb-2">{{ $alt->product->storage }} GB</span>
+                                                        @if ($alt->product->link)
+                                                            <a href="{{ $alt->product->link }}" target="_blank"
+                                                                class="btn btn-primary btn-sm mb-2">
+                                                                <i class="bi bi-link-45deg me-1"></i>Lihat Produk
+                                                            </a>
+                                                        @endif
                                                         @if (!empty($selectedCodes ?? []) || request()->filled('rank'))
-                                                            <span class="badge bg-primary ms-2 mb-2">MOORA: {{ number_format($nilai, 4) }}</span>
+                                                            <span class="badge bg-primary ms-2 mb-2">MOORA:
+                                                                {{ number_format($nilai, 4) }}</span>
                                                         @endif
                                                     </div>
                                                     <div class="mb-3 p-3 rounded" style="background:#f9fafb;">
@@ -581,7 +640,8 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer border-0 pt-0">
-                                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Tutup</button>
+                                            <button type="button" class="btn btn-light"
+                                                data-bs-dismiss="modal">Tutup</button>
                                         </div>
                                     </div>
                                 </div>

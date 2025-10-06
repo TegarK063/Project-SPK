@@ -68,6 +68,19 @@
                         </div>
                     @enderror
                 </div>
+
+                <div>
+                    <label class="text-white" for="link">Link</label>
+                    <input id="link" type="text" name="link" value="{{ old('link', $product->link) }}"
+                        class="@error('link') is-invalid @enderror block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:border-pink-500 focus:outline-none focus:ring"
+                        placeholder="Masukkan Link Product">
+                    @error('link')
+                        <div class="text-red-500 mt-1 ">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+
                 <div>
                     <label class="block text-sm font-medium text-white">
                         Image
