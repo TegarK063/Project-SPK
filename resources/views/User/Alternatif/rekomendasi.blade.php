@@ -158,6 +158,61 @@
                 color: #6b7280;
                 font-size: 0.92rem;
             }
+
+            /* Special styling for #1 ranked product card */
+            .rank-badge-special {
+                animation: pulse-glow 2s infinite;
+                box-shadow: 0 0 20px rgba(40, 167, 69, 0.5);
+            }
+
+            @keyframes pulse-glow {
+                0%, 100% {
+                    box-shadow: 0 0 20px rgba(40, 167, 69, 0.5);
+                    transform: scale(1);
+                }
+                50% {
+                    box-shadow: 0 0 30px rgba(40, 167, 69, 0.8);
+                    transform: scale(1.05);
+                }
+            }
+
+            .analysis-section {
+                background: rgba(255, 255, 255, 0.7);
+                border-radius: 12px;
+                padding: 15px;
+                border: 1px solid rgba(40, 167, 69, 0.2);
+            }
+
+            .criteria-item {
+                transition: all 0.3s ease;
+                border-left: 4px solid transparent;
+            }
+
+            .criteria-item:hover {
+                transform: translateX(5px);
+                border-left-color: #28a745;
+            }
+
+            .champion-card {
+                position: relative;
+                overflow: hidden;
+            }
+
+            .champion-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+                animation: shimmer-champion 3s infinite;
+            }
+
+            @keyframes shimmer-champion {
+                0% { left: -100%; }
+                100% { left: 100%; }
+            }
         </style>
 
         {{-- 🔍 Minimal Filter Toggle --}}
@@ -206,6 +261,231 @@
             })();
         </script>
 
+        {{-- 🏆 Special Card for #1 Ranked Product --}}
+        @if (!empty($optimasi))
+            @php
+                $firstId = array_key_first($optimasi);
+                $firstAlt = $alternatifs->firstWhere('id', $firstId);
+                $firstNilai = $optimasi[$firstId];
+            @endphp
+            @if ($firstAlt)
+                <div class="card shadow-lg mb-4 champion-card" style="border: 2px solid #28a745; background: linear-gradient(135deg, #f8fff9 0%, #e8f5e8 100%);">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-md-2 text-center">
+                                <div class="rank-badge-special" style="background: linear-gradient(135deg, #28a745, #20c997); color: white; padding: 15px; border-radius: 50%; font-size: 1.2rem; font-weight: bold; display: inline-block; width: 80px; height: 80px; line-height: 50px;">
+                                    #1
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                @php
+                                    $img = $firstAlt->product->image ?? null;
+                                    if ($img) {
+                                        if (str_starts_with($img, 'http')) {
+                                            $src = $img;
+                                        } else {
+                                            $src = asset('storage/products/' . ltrim($img, '/'));
+                                        }
+                                    } else {
+                                        $src = asset('assets/img/default.png');
+                                    }
+                                @endphp
+                                <img src="{{ $src }}" alt="{{ $firstAlt->product->series }}"
+                                     style="width: 100%; height: 200px; object-fit: contain; border-radius: 12px; background: #f8f9fa;" />
+                            </div>
+                            <div class="col-md-6">
+                                <h4 class="text-success mb-2">{{ $firstAlt->product->series }}</h4>
+                                <div class="mb-3">
+                                    <span class="badge bg-primary me-2">{{ $firstAlt->product->storage }} GB</span>
+                                    <span class="badge bg-warning text-dark">Rp {{ number_format($firstAlt->product->price, 0, ',', '.') }}</span>
+                                </div>
+
+                                {{-- Analysis of why it's #1 --}}
+                                <div class="analysis-section">
+                                    <h6 class="text-dark mb-3">
+                                        <i class="bi bi-trophy-fill text-warning me-2"></i>
+                                        Mengapa Produk Ini Ranking #1?
+                                    </h6>
+                                    <div class="criteria-analysis">
+                                        @php
+                                            $topCriteria = [];
+                                            $criteriaNames = [
+                                                'C01' => 'Harga',
+                                                'C02' => 'Performance',
+                                                'C03' => 'Kamera',
+                                                'C04' => 'Baterai',
+                                                'C05' => 'Storage',
+                                                'C06' => 'After Sales'
+                                            ];
+
+                                            // Calculate contribution of each criteria to the final score
+                                            foreach ($kriterias as $k) {
+                                                if (isset($normalisasi[$firstId][$k->kode_kriteria])) {
+                                                    $normalizedValue = $normalisasi[$firstId][$k->kode_kriteria];
+                                                    $weight = (float) $k->bobot;
+                                                    $contribution = strtolower($k->type) === 'benefit'
+                                                        ? $normalizedValue * $weight
+                                                        : -($normalizedValue * $weight);
+                                                    $topCriteria[] = [
+                                                        'name' => $criteriaNames[$k->kode_kriteria] ?? $k->nama_kriteria,
+                                                        'contribution' => $contribution,
+                                                        'type' => $k->type,
+                                                        'weight' => $weight,
+                                                        'raw_value' => $matrix[$firstId][$k->kode_kriteria] ?? 0
+                                                    ];
+                                                }
+                                            }
+
+                                            // Sort by contribution (highest positive impact first)
+                                            usort($topCriteria, function($a, $b) {
+                                                return $b['contribution'] <=> $a['contribution'];
+                                            });
+                                        @endphp
+
+                                        @foreach (array_slice($topCriteria, 0, 3) as $criteria)
+                                            @php
+                                                $name = $criteria['name'];
+                                                $value = $criteria['raw_value'];
+                                                $type = $criteria['type'];
+                                                $isPositive = $criteria['contribution'] > 0;
+
+                                                // Create user-friendly descriptions
+                                                $description = '';
+                                                $icon = '';
+
+                                                if ($name === 'Harga') {
+                                                    $icon = '💰';
+                                                    // For price (Cost criteria), negative contribution means lower price = better
+                                                    if ($type === 'Cost') {
+                                                        $description = $isPositive ? 'Harga lebih mahal' : 'Harga terjangkau';
+                                                    } else {
+                                                        $description = $isPositive ? 'Harga terjangkau' : 'Harga lebih mahal';
+                                                    }
+                                                } elseif ($name === 'Performance') {
+                                                    $icon = '⚡';
+                                                    if ($isPositive) {
+                                                        $description = 'Performance lebih baik';
+                                                    } else {
+                                                        $description = 'Performance kurang optimal';
+                                                    }
+                                                } elseif ($name === 'Kamera') {
+                                                    $icon = '📷';
+                                                    if ($isPositive) {
+                                                        $description = 'Kualitas kamera lebih bagus';
+                                                    } else {
+                                                        $description = 'Kualitas kamera kurang bagus';
+                                                    }
+                                                } elseif ($name === 'Baterai') {
+                                                    $icon = '🔋';
+                                                    if ($isPositive) {
+                                                        $description = 'Daya tahan baterai lebih kuat';
+                                                    } else {
+                                                        $description = 'Daya tahan baterai kurang kuat';
+                                                    }
+                                                } elseif ($name === 'Storage') {
+                                                    $icon = '💾';
+                                                    if ($isPositive) {
+                                                        $description = 'Kapasitas storage lebih besar';
+                                                    } else {
+                                                        $description = 'Kapasitas storage lebih kecil';
+                                                    }
+                                                } elseif ($name === 'After Sales') {
+                                                    $icon = '🎧';
+                                                    if ($isPositive) {
+                                                        $description = 'Layanan after sales lebih baik';
+                                                    } else {
+                                                        $description = 'Layanan after sales kurang baik';
+                                                    }
+                                                }
+                                            @endphp
+                                            <div class="criteria-item mb-2 p-2 rounded"
+                                                 style="background: #d4edda;">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <span class="fw-bold">
+                                                        {{ $icon }} {{ $description }}
+                                                    </span>
+                                                    <span class="badge bg-success">
+                                                        ✓
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+
+                                    <div class="mt-3 p-3 rounded" style="background: #e3f2fd;">
+                                        <small class="text-muted">
+                                            <i class="bi bi-info-circle me-1"></i>
+                                            @php
+                                                $strengths = [];
+                                                $criteriaNames = [
+                                                    'C01' => 'Harga',
+                                                    'C02' => 'Performance',
+                                                    'C03' => 'Kamera',
+                                                    'C04' => 'Baterai',
+                                                    'C05' => 'Storage',
+                                                    'C06' => 'After Sales'
+                                                ];
+
+                                                // Get the top criteria that contributed most positively
+                                                $positiveCriteria = array_filter($topCriteria, function($c) {
+                                                    return $c['contribution'] > 0;
+                                                });
+
+                                                // Always show at least 2-3 criteria, or all if less than 3
+                                                $topStrengths = array_slice($positiveCriteria, 0, max(2, min(3, count($positiveCriteria))));
+
+                                                // If we have less than 2 positive criteria, include some from the top criteria regardless of contribution
+                                                if (count($topStrengths) < 2) {
+                                                    $topStrengths = array_slice($topCriteria, 0, 3);
+                                                }
+
+                                                foreach ($topStrengths as $criteria) {
+                                                    $name = $criteria['name'];
+                                                    $value = $criteria['raw_value'];
+                                                    $type = $criteria['type'];
+
+                                                    if ($name === 'Harga') {
+                                                        $strengths[] = "Harga terjangkau (Rp " . number_format($value, 0, ',', '.') . ")";
+                                                    } elseif ($name === 'Performance') {
+                                                        $strengths[] = "Performance tinggi (" . number_format($value, 1) . "/10)";
+                                                    } elseif ($name === 'Kamera') {
+                                                        $strengths[] = "Kualitas kamera bagus (" . number_format($value, 1) . "/10)";
+                                                    } elseif ($name === 'Baterai') {
+                                                        $strengths[] = "Daya tahan baterai kuat (" . number_format($value, 0) . " Jam)";
+                                                    } elseif ($name === 'Storage') {
+                                                        $strengths[] = "Kapasitas storage besar (" . number_format($value, 0) . " GB)";
+                                                    } elseif ($name === 'After Sales') {
+                                                        $strengths[] = "Layanan after sales baik (" . number_format($value, 1) . "/10)";
+                                                    }
+                                                }
+
+                                                $explanation = "Produk ini mendapat ranking #1 karena ";
+                                                if (!empty($strengths)) {
+                                                    if (count($strengths) == 1) {
+                                                        $explanation .= $strengths[0] . ".";
+                                                    } elseif (count($strengths) == 2) {
+                                                        $explanation .= $strengths[0] . " dan " . $strengths[1] . ".";
+                                                    } elseif (count($strengths) == 3) {
+                                                        $explanation .= $strengths[0] . ", " . $strengths[1] . ", dan " . $strengths[2] . ".";
+                                                    } else {
+                                                        // For more than 3, show first 3
+                                                        $explanation .= $strengths[0] . ", " . $strengths[1] . ", dan " . $strengths[2] . ".";
+                                                    }
+                                                } else {
+                                                    $explanation .= "memiliki kombinasi terbaik dari semua kriteria yang dinilai.";
+                                                }
+                                            @endphp
+                                            {{ $explanation }}
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+        @endif
+
         {{-- 📊 Hasil Rekomendasi --}}
         <div class="card shadow">
             <div class="card-body">
@@ -233,7 +513,7 @@
                                     <div class="product-img-wrapper">
                                         <span class="rank-badge" title="Peringkat">Rank #{{ $rank }}</span>
                                         @if (!empty($selectedCodes ?? []) || request()->filled('rank'))
-                                            <span class="moora-badge">MOORA: {{ number_format($nilai, 4) }}</span>
+                                            {{-- <span class="moora-badge">MOORA: {{ number_format($nilai, 4) }}</span> --}}
                                         @endif
                                         <img src="{{ $src }}" class="card-img-top skeleton"
                                             alt="{{ $alt->product->series }}" style="height: 260px; object-fit: cover;"
@@ -315,4 +595,71 @@
             </div>
         </div>
     </div>
+
+    {{-- Footer Section --}}
+    <footer class="mt-5 py-4" style="background: linear-gradient(135deg, #2e7d32, #43a047); color: white;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="mb-3">
+                        <i class="bi bi-trophy-fill me-2"></i>
+                        Sistem Rekomendasi Produk
+                    </h5>
+                    <p class="mb-0 text-light">
+                        Menggunakan metode MOORA (Multi-Objective Optimization on the basis of Ratio Analysis)
+                        untuk memberikan rekomendasi produk terbaik berdasarkan kriteria yang telah ditentukan.
+                    </p>
+                </div>
+                <div class="col-md-3">
+                    <h6 class="mb-3">Kriteria Penilaian</h6>
+                    <ul class="list-unstyled text-light">
+                        <li><i class="bi bi-currency-dollar me-2"></i>Harga</li>
+                        <li><i class="bi bi-speedometer2 me-2"></i>Performance</li>
+                        <li><i class="bi bi-camera me-2"></i>Kamera</li>
+                        <li><i class="bi bi-battery-full me-2"></i>Baterai</li>
+                        <li><i class="bi bi-hdd me-2"></i>Storage</li>
+                        <li><i class="bi bi-headset me-2"></i>After Sales</li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6 class="mb-3">Informasi</h6>
+                    <div class="text-light">
+                        <p class="mb-2">
+                            <i class="bi bi-calendar-check me-2"></i>
+                            Total Produk: <strong>{{ count($optimasi) }}</strong>
+                        </p>
+                        <p class="mb-2">
+                            <i class="bi bi-graph-up me-2"></i>
+                            Metode: <strong>MOORA</strong>
+                        </p>
+                        <p class="mb-0">
+                            <i class="bi bi-shield-check me-2"></i>
+                            Status: <span class="badge bg-success">Aktif</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4" style="border-color: rgba(255,255,255,0.2);">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="mb-0 text-light">
+                        <i class="bi bi-c-circle me-1"></i>
+                        {{ date('Y') }} Sistem Rekomendasi Produk. All rights reserved.
+                    </p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <div class="d-flex justify-content-md-end gap-3">
+                        <span class="badge bg-light text-dark">
+                            <i class="bi bi-check-circle me-1"></i>
+                            Terverifikasi
+                        </span>
+                        <span class="badge bg-warning text-dark">
+                            <i class="bi bi-star-fill me-1"></i>
+                            Rekomendasi Terbaik
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 @endsection
