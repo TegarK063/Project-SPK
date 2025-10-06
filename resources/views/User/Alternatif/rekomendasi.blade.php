@@ -248,6 +248,61 @@
                                         </div>
                                         <p class="desc-text mb-0 clamp-2">
                                             {{ \Illuminate\Support\Str::limit($alt->product->description, 140) }}</p>
+                                        <div class="mt-auto">
+                                            <button type="button" class="btn btn-success mt-3"
+                                                data-bs-toggle="modal" data-bs-target="#modalProduct-{{ $id }}">
+                                                Lihat Detail
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{-- Modal Detail Produk --}}
+                            <div class="modal fade" id="modalProduct-{{ $id }}" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog modal-lg modal-dialog-centered">
+                                    <div class="modal-content rounded-3">
+                                        <div class="modal-header border-0">
+                                            <h5 class="modal-title mb-0">{{ $alt->product->series }}</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-md-5 mb-3 mb-md-0">
+                                                    <div class="border rounded-lg overflow-hidden shadow-sm">
+                                                        <img src="{{ $src }}" alt="{{ $alt->product->series }}"
+                                                            style="width: 100%; height: 280px; object-fit: cover;" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <div class="d-flex align-items-center flex-wrap mb-3">
+                                                        <span class="price-chip me-2 mb-2">Rp {{ number_format($alt->product->price, 0, ',', '.') }}</span>
+                                                        <span class="chip mb-2">{{ $alt->product->storage }} GB</span>
+                                                        @if (!empty($selectedCodes ?? []) || request()->filled('rank'))
+                                                            <span class="badge bg-primary ms-2 mb-2">MOORA: {{ number_format($nilai, 4) }}</span>
+                                                        @endif
+                                                    </div>
+                                                    <div class="mb-3 p-3 rounded" style="background:#f9fafb;">
+                                                        <div class="d-flex align-items-center mb-2">
+                                                            <i class="bi bi-tag me-2 text-secondary"></i>
+                                                            <span class="fw-bold">Series</span>
+                                                        </div>
+                                                        <div class="text-dark">{{ $alt->product->series }}</div>
+                                                    </div>
+                                                    <div class="mb-1 p-3 rounded" style="background:#f9fafb;">
+                                                        <div class="d-flex align-items-center mb-2">
+                                                            <i class="bi bi-info-circle me-2 text-secondary"></i>
+                                                            <span class="fw-bold">Deskripsi</span>
+                                                        </div>
+                                                        <p class="mb-0" style="color:#4b5563; line-height:1.7;">
+                                                            {{ $alt->product->description }}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer border-0 pt-0">
+                                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Tutup</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
